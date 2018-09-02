@@ -1,4 +1,4 @@
-package dfa
+package DFA
 
 type MatchType uint8
 

@@ -1,4 +1,4 @@
-package dfa
+package DFA
 
 import (
 	"encoding/json"
