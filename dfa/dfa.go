@@ -3,24 +3,35 @@ package dfa
 type MatchType uint8
 
 const (
-	MinMartchType MatchType = 1 << iota
+	MinMatchType MatchType = 1 << iota
 	MaxMatchType
 )
 
-type SensitiveWorldLibary map[string]interface{}
+type SensitiveWorldLibrary map[string]interface{}
 
 // 定义一个全家变量
-var sensitiveWorldLibary SensitiveWorldLibary
+var sensitiveWorldLibrary SensitiveWorldLibrary
+
+/**
+	 解析一个文件里的名词
+	@Param {string} path 文件路径 支持 ini
+	@Returns {[]string] 敏感词切片
+
+*/
+//func NewSensitiveLibary(path string) {
+//
+//}
+
 
 // 初始化敏感词库
-func NewSensitiveWorld(words []string) SensitiveWorldLibary {
+func NewSensitiveWorld(words []string) SensitiveWorldLibrary {
 
-	if sensitiveWorldLibary == nil {
-		sensitiveWorldLibary = make(SensitiveWorldLibary)
+	if sensitiveWorldLibrary == nil {
+		sensitiveWorldLibrary = make(SensitiveWorldLibrary)
 	}
 	// 敏感词个数
 	length := len(words)
-	currentSWL := sensitiveWorldLibary
+	currentSWL := sensitiveWorldLibrary
 
 	for i := 0; i < length; i++ {
 
@@ -29,25 +40,24 @@ func NewSensitiveWorld(words []string) SensitiveWorldLibary {
 			word := string(value)
 			if _, ok := currentSWL[word]; ok {
 
-				currentSWL = currentSWL[word].(SensitiveWorldLibary)
+				currentSWL = currentSWL[word].(SensitiveWorldLibrary)
 			} else {
 
-				newSWL := make(SensitiveWorldLibary)
+				newSWL := make(SensitiveWorldLibrary)
 				newSWL["isEnd"] = 0
 				currentSWL[word] = newSWL
 				currentSWL = newSWL
 			}
 		}
 		currentSWL["isEnd"] = 1
-		currentSWL = sensitiveWorldLibary
+		currentSWL = sensitiveWorldLibrary
 	}
-	return sensitiveWorldLibary
+	return sensitiveWorldLibrary
 }
 
 // 检测铭感词
 // 把一句话每个字转换成数组
-// TODO matchType
-func (sw SensitiveWorldLibary) CheckSensitiveWord(words []string, startIndex int, matchType MatchType) int {
+func (sw SensitiveWorldLibrary) CheckSensitiveWord(words []string, startIndex int, matchType MatchType) int {
 
 	count := 0
 	flag := false
@@ -60,10 +70,10 @@ func (sw SensitiveWorldLibary) CheckSensitiveWord(words []string, startIndex int
 		if _, ok := currentSWL[word]; ok {
 
 			count++
-			currentSWL = currentSWL[word].(SensitiveWorldLibary)
+			currentSWL = currentSWL[word].(SensitiveWorldLibrary)
 			if currentSWL["isEnd"] == 1 {
 				flag = true
-				if matchType == MinMartchType {
+				if matchType == MinMatchType {
 					break
 				}
 			}
@@ -71,9 +81,9 @@ func (sw SensitiveWorldLibary) CheckSensitiveWord(words []string, startIndex int
 			break
 		}
 	}
+
 	if !flag && count < 2 {
 		count = 0
 	}
-	// fmt.Println("count, ", count)
 	return count
 }
