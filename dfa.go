@@ -9,27 +9,16 @@ const (
 
 type SensitiveWorldLibrary map[string]interface{}
 
-// 定义一个全家变量
+// define a global variable
 var sensitiveWorldLibrary SensitiveWorldLibrary
 
-/**
-	 解析一个文件里的名词
-	@Param {string} path 文件路径 支持 ini
-	@Returns {[]string] 敏感词切片
-
-*/
-//func NewSensitiveLibary(path string) {
-//
-//}
-
-
-// 初始化敏感词库
+// inital a sensitive word library by []sting
 func NewSensitiveWorld(words []string) SensitiveWorldLibrary {
 
 	if sensitiveWorldLibrary == nil {
 		sensitiveWorldLibrary = make(SensitiveWorldLibrary)
 	}
-	// 敏感词个数
+
 	length := len(words)
 	currentSWL := sensitiveWorldLibrary
 
@@ -55,8 +44,7 @@ func NewSensitiveWorld(words []string) SensitiveWorldLibrary {
 	return sensitiveWorldLibrary
 }
 
-// 检测铭感词
-// 把一句话每个字转换成数组
+// check sensitive word in a sentence, you must transform type of string to []sting, and them pass it here 
 func (sw SensitiveWorldLibrary) CheckSensitiveWord(words []string, startIndex int, matchType MatchType) int {
 
 	count := 0

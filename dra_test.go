@@ -40,7 +40,7 @@ func TestCheckSensitiveWord(t *testing.T) {
 
 		var sensitivew []string
 		for i := 0; i < len(strArr); i++ {
-			if count := sensitiveWorldLibary.CheckSensitiveWord(strArr, i, MinMartchType); count > 0 {
+			if count := sensitiveWorldLibrary.CheckSensitiveWord(strArr, i, MinMatchType); count > 0 {
 				sensitivew = append(sensitivew, strings.Join(strArr[i:i+count], ""))
 			}
 		}
